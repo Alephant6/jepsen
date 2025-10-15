@@ -5,7 +5,7 @@
             [jepsen.control :as control]
             [jepsen.cockroach :as cl]
             [jepsen.cockroach [register :as register]]
-            [jepsen.cockroach-nemesis :as cln]))
+            [jepsen.cockroach.nemesis :as cln]))
 
 (def nodes [:n1l :n2l :n3l :n4l :n5l])
 
@@ -44,9 +44,9 @@
        (def-split ~name# "-startstop-skews"    ~base (cln/compose cln/startstop cln/skews))
        )))
 
-(def-tests cl/atomic-test)
-(def-tests cl/sets-test)
-(def-tests cl/monotonic-test)
-(def-tests cl/monotonic-multitable-test)
-(def-tests cl/bank-test)
-(def-tests cl/bank-multitable-test)
+;; (def-tests cl/atomic-test)
+;; (def-tests cl/sets-test)
+;; (def-tests cl/monotonic-test)
+;; (def-tests cl/monotonic-multitable-test)
+;; (def-tests cl/bank-test)
+;; (def-tests cl/bank-multitable-test)

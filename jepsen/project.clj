@@ -32,8 +32,8 @@
                  [slingshot "0.12.2"]
                  [org.clojure/data.codec "0.2.0"]
                  [fipp "0.6.27"]]
-  :java-source-paths ["src"]
-  :javac-options ["--release" "11"]
+  ;:java-source-paths ["src"]
+  ;:javac-options ["--release" "11"]
   :main jepsen.cli
   :plugins [[lein-localrepo "0.5.4"]
             [lein-codox "0.10.8"]

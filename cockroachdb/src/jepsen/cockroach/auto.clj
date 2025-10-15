@@ -14,7 +14,7 @@
 
 (def cockroach-user "User to run cockroachdb as" "cockroach")
 
-(def tcpdump "Local path to tcpdump binary" "/usr/sbin/tcpdump")
+(def tcpdump "Local path to tcpdump binary" "/usr/bin/tcpdump")
 
 (def jdbc-mode
   "Possible values:

@@ -72,7 +72,7 @@
                     nemeses)
 
    ["-o" "--os NAME" "debian, ubuntu, or none"
-    :default debian/os
+    :default ubuntu/os
     :parse-fn oses
     :validate [identity (jc/one-of oses)]]
 
