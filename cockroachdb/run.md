@@ -15,3 +15,12 @@ cd /local/jepsen/cockroachdb && timeout 600 lein run test \
   --nemesis parts \
   --time-limit 60 \
   --concurrency 10 2>&1 | tee /tmp/jepsen-5node-test.log | grep -E "INFO.*jepsen|ERROR|Everything|Analysis|valid|Cut off|Healing"
+
+
+## install dependency
+sudo apt-get install -y openjdk-8-jdk
+sudo update-alternatives --list java
+sudo update-alternatives --set java /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java
+
+
+sudo apt-get install -y leiningen
