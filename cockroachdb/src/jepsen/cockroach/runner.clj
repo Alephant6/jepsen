@@ -17,10 +17,12 @@
                               [bank :as bank]
                               [comments :as comments]
                               [register :as register]
+                              [minimal :as minimal]
                               [monotonic :as monotonic]
                               [nemesis :as cln]
                               [sets :as sets]
-                              [sequential :as sequential]]))
+                              [sequential :as sequential]
+                              [timestamp-inversion :as tinv]]))
 
 (def tests
   "A map of test names to test constructors."
@@ -28,9 +30,11 @@
    "bank-multitable"      bank/multitable-test
    "comments"             comments/test
    "register"             register/test
+   "minimal"              minimal/test
    "monotonic"            monotonic/test
    "sets"                 sets/test
    "sequential"           sequential/test
+   "timestamp-inversion"  tinv/test
    "g2"                   adya/g2-test})
 
 (def oses

@@ -309,3 +309,31 @@
                       k
                       (str "'" k "'"))
                     ")")]))
+
+(defn- quote-sql-str
+  "Very small helper to single-quote a SQL string literal."
+  [s]
+  (str "'" (str/replace s #"'" "''") "'"))
+
+(defn show-range-for-row
+  "Returns metadata for the range containing the given primary-key tuple."
+  [conn table key]
+  (->> (query conn [(format "show range from table %s for row (%s)"
+                            (name table)
+                            (quote-sql-str (str key)))])
+       first))
+
+(defn relocate-lease!
+  "Moves the lease for range-id to the given store-id."
+  [conn range-id store-id]
+  (j/execute! conn [(format "alter range %s relocate lease to %s"
+                            range-id store-id)]))
+
+(defn store-ids-by-node
+  "Returns a map of node_id -> store_id for the current cluster."
+  [conn]
+  (->> (query conn ["select store_id, node_id
+                      from crdb_internal.kv_store_status"])
+       (reduce (fn [m {:keys [store_id node_id]}]
+                 (assoc m node_id store_id))
+               {})))
