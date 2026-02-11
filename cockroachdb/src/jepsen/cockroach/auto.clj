@@ -189,6 +189,14 @@
                (str "COCKROACH_MAX_OFFSET=" "250ms")]
               (cockroach-start-cmdline join))))
 
+(defn await-port [node port]
+  (util/timeout 60000 (throw (RuntimeException. (str "Timed out waiting for port " port)))
+    (while (try
+             (c/exec :timeout :1 :bash :-c (str "echo > /dev/tcp/" (name node) "/" port))
+             false
+             (catch RuntimeException _ true))
+      (Thread/sleep 1000))))
+
 (defn start!
   "Start cockroachdb on node."
   [test node]
@@ -200,7 +208,8 @@
             (do (info node "Starting CockroachDB...")
                 (c/trace (c/exec (runcmd test node
                                          (not= node (jepsen/primary test)))))
-                (info node "Cockroach started"))))
+                (info node "Cockroach started")
+                (await-port node db-port))))
   :started)
 
 (defn kill!
@@ -208,6 +217,11 @@
   [test node]
   (util/meh (c/su (c/exec :killall :-9 :cockroach)))
   (info node "Cockroach killed.")
+  (util/timeout 5000 (warn node "Cockroach failed to die")
+                (while (try
+                         (c/su (c/exec :pgrep :cockroach))
+                         (catch RuntimeException e false))
+                  (Thread/sleep 100)))
   :killed)
 
 (def ntpserver "ntp.ubuntu.com")
@@ -215,7 +229,11 @@
 (defn reset-clock!
   "Reset clock on this host. Logs output."
   []
-  (info c/*host* "clock reset:" (c/su (c/exec :ntpdate :-b ntpserver))))
+  (info c/*host* "clock reset:"
+        (try
+          (c/su (c/exec :ntpdate :-b ntpserver (c/lit "2>/dev/null")))
+          (catch Exception e
+            (warn c/*host* "Failed to reset clock (harmless if in container):" (.getMessage e))))))
 
 (defn reset-clocks!
   "Reset all clocks on all nodes in a test"
