@@ -20,7 +20,7 @@ database operations and exercise the database's consistency protocols.
 
 By default, these tests use **CockroachDB beta-20170330** (released March 30, 2017).
 
-**测试版本说明 (Version Notes for Chinese Users):** 默认使用 CockroachDB beta-20170330 版本（2017年3月30日发布）进行测试。
+**测试版本说明:** 请参见上方的默认版本信息。
 
 You can specify a different version by providing the `--tarball` option:
 
