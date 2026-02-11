@@ -16,6 +16,22 @@ the consistency properties defined in each test.  During the tests,
 various combinations of nemeses can be added to interfere with the
 database operations and exercise the database's consistency protocols.
 
+## CockroachDB Version
+
+By default, these tests use **CockroachDB beta-20170330** (released March 30, 2017).
+
+**测试版本说明:** 请参见上方的默认版本信息。
+
+You can specify a different version by providing the `--tarball` option:
+
+```bash
+lein run test --tarball https://binaries.cockroachdb.com/cockroach-beta-20170330.linux-amd64.tgz --test sets --nemesis subcritical-skews
+```
+
+To use a different version, download or specify the URL to a CockroachDB tarball for Linux amd64. You can find available versions at:
+- Official binaries: https://www.cockroachlabs.com/docs/releases/
+- Historical binaries: https://binaries.cockroachdb.com/
+
 ## Running
 
 `lein run test --test sets --nemesis subcritical-skews`
